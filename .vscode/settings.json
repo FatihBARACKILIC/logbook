@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cSpell.words": ["oklch"]
+}

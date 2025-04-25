@@ -1,0 +1,54 @@
+---
+import { APP_CONSTANTS } from "@/lib/constants/app.constants";
+import type { Meta } from "@/lib/types/meta.types";
+import "@/styles/global.css";
+
+type Props = {
+  meta?: Meta;
+};
+
+const { meta = {} } = Astro.props;
+
+const pageTitle = meta.title ? `${meta.title} | ${APP_CONSTANTS.APP_NAME}` : APP_CONSTANTS.APP_NAME;
+const metaTags: Meta = {
+  robots: meta?.robots ?? "index, follow",
+  description: meta?.description ?? APP_CONSTANTS.APP_DESCRIPTION,
+  title: meta?.title ?? APP_CONSTANTS.APP_NAME,
+  image: meta?.image ?? APP_CONSTANTS.APP_LOGO,
+  ogType: meta?.ogType ?? "website",
+  url: meta.url,
+  canonical: meta.canonical
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={metaTags.description} />
+    <meta name="robots" content={metaTags.robots} />
+    {metaTags.canonical && <link rel="canonical" href={metaTags.canonical} />}
+
+    <meta property="og:title" content={metaTags.title} />
+    <meta property="og:description" content={metaTags.description} />
+    <meta property="og:image" content={metaTags.image} />
+    {metaTags.url && <meta property="og:url" content={metaTags.url} />}
+    <meta property="og:type" content={metaTags.ogType} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={metaTags.title} />
+    <meta name="twitter:description" content={metaTags.description} />
+    <meta name="twitter:image" content={metaTags.image} />
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen w-full">
+    <slot />
+
+    <script is:inline src="/scripts/dark-mode.js"></script>
+  </body>
+</html>

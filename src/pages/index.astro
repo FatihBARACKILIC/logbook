@@ -1,0 +1,25 @@
+---
+import { Button } from "@/components/ui/button";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { APP_CONSTANTS } from "@/lib/constants/app.constants";
+import { Image } from "astro:assets";
+import { LogIn } from "lucide-react";
+import Logo from "@/assets/images/logo/logo.png";
+import { ModeToggle } from "@/components/mode-toggle";
+---
+
+<BaseLayout>
+  <div class="flex min-h-screen w-full items-center justify-center p-4 text-justify">
+    <div class="flex w-full max-w-xl flex-col items-center justify-center">
+      <Image src={Logo} alt={`${APP_CONSTANTS.APP_NAME} logo`} loading="eager" decoding="async" />
+      <h1>{APP_CONSTANTS.APP_NAME}</h1>
+      <p>{APP_CONSTANTS.APP_DESCRIPTION}</p>
+      <div class="flex items-center justify-center gap-4">
+        <Button variant="link" size="icon" client:load>
+          <LogIn />
+        </Button>
+        <ModeToggle client:load />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
