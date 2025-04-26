@@ -28,17 +28,20 @@ const metaTags: Meta = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Primary Meta Tags -->
     <title>{pageTitle}</title>
     <meta name="description" content={metaTags.description} />
     <meta name="robots" content={metaTags.robots} />
     {metaTags.canonical && <link rel="canonical" href={metaTags.canonical} />}
 
+    <!-- Open Graph tags -->
     <meta property="og:title" content={metaTags.title} />
     <meta property="og:description" content={metaTags.description} />
     <meta property="og:image" content={metaTags.image} />
     {metaTags.url && <meta property="og:url" content={metaTags.url} />}
     <meta property="og:type" content={metaTags.ogType} />
 
+    <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={metaTags.title} />
     <meta name="twitter:description" content={metaTags.description} />
