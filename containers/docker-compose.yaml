@@ -1,0 +1,27 @@
+name: logbook
+services:
+  logbook_postgres:
+    image: postgres:17-alpine3.21
+    container_name: logbook_postgres
+    restart: always
+    env_file:
+      - ../.env.local
+    ports:
+      - "5432:5432"
+    volumes:
+      - logbook_postgres_data:/var/lib/postgresql/data
+  logbook_redis:
+    image: redis:7-alpine3.21
+    container_name: logbook_redis
+    env_file:
+      - ../.env.local
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - logbook_redis_data:/data
+
+volumes:
+  logbook_postgres_data:
+  logbook_redis_data:
