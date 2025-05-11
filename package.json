@@ -2,6 +2,20 @@
   "name": "logbook",
   "type": "module",
   "version": "0.0.1",
+  "author": {
+    "name": "Fatih BARAÇKILIÇ",
+    "email": "fatihb469@gmail.com",
+    "url": "https://github.com/FatihBARACKILIC"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FatihBARACKILIC/logbook.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FatihBARACKILIC/logbook/issues"
+  },
+  "homepage": "https://github.com/FatihBARACKILIC/logbook#readme",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
