@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@/layouts/base-layout.astro";
+
+const user = await Astro.session?.get("user");
+
+if (!user || !user.email) {
+  throw new Error("User not found");
+}
+---
+
+<BaseLayout>
+  <p>
+    {user.email} welcome to the app!
+  </p>
+</BaseLayout>

@@ -1,11 +1,14 @@
 ---
 import Logo from "@/assets/images/logo/logo.png";
+import { SignOutButton } from "@/components/common/sign-out-button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { APP_CONSTANTS } from "@/lib/constants/app.constants";
 import { Image } from "astro:assets";
-import { LogIn } from "lucide-react";
+import { CommandIcon, LogInIcon } from "lucide-react";
+
+const session = await Astro.session?.get("user");
 ---
 
 <BaseLayout>
@@ -15,9 +18,23 @@ import { LogIn } from "lucide-react";
       <h1>{APP_CONSTANTS.APP_NAME}</h1>
       <p>{APP_CONSTANTS.APP_DESCRIPTION}</p>
       <div class="flex items-center justify-center gap-4">
-        <Button variant="link" size="icon" client:load>
-          <LogIn />
-        </Button>
+        {
+          session?.email ? (
+            <a href="/app">
+              <Button variant="link" size="icon" className="cursor-pointer">
+                <CommandIcon />
+              </Button>
+            </a>
+            <SignOutButton client:idle />
+          ) : (
+            <a href="/auth/sign-in">
+              <Button variant="link" size="icon" className="cursor-pointer">
+                <LogInIcon />
+              </Button>
+            </a>
+          )
+        }
+
         <ModeToggle client:load />
       </div>
     </div>

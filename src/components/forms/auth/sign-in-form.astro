@@ -1,0 +1,100 @@
+---
+import Button from "@/components/ui-astro/button.astro";
+import FormControl from "@/components/ui-astro/form-control.astro";
+import { cn } from "@/lib/utils/cn";
+import GoogleIconSvg from "@/components/svg/google-icon-svg.astro";
+import GitHubIconSvg from "@/components/svg/github-icon-svg.astro";
+import AppleIconSvg from "@/components/svg/apple-icon.svg.astro";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"form">;
+
+const { class: className, ...attr } = Astro.props;
+---
+
+<form id="sign-in-form" class={cn("flex flex-col gap-4", className)} {...attr}>
+  <div class="flex flex-col items-center gap-2 text-center">
+    <h1 class="text-2xl font-bold">Sign In</h1>
+    <p class="text-muted-foreground text-sm text-balance">
+      No sign-up. Enter email, use code to sign in.
+    </p>
+  </div>
+  <div class="grid gap-6">
+    <FormControl
+      transition:persist
+      name="email"
+      placeholder="Email"
+      required
+      aria-label="Email"
+      autocomplete="email"
+    />
+    <Button type="submit" class="w-full"> Sign In </Button>
+
+    <div
+      class="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t"
+    >
+      <span class="bg-background text-muted-foreground relative z-10 px-2"> Or continue with </span>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4">
+      <Button id="google-sign-in" type="button" variant="outline" class="w-full">
+        <GoogleIconSvg />
+        <span class="sr-only">Sign In with Google</span>
+      </Button>
+      <Button id="apple-sign-in" type="button" variant="outline" class="w-full">
+        <AppleIconSvg />
+        <span class="sr-only">Sign In with Apple</span>
+      </Button>
+      <Button id="github-sign-in" variant="outline" class="w-full">
+        <GitHubIconSvg />
+        <span class="sr-only">Sign In with GitHub</span>
+      </Button>
+    </div>
+    <p
+      class="text-muted-foreground [&_a]:hover:text-primary text-center text-xs text-balance [&_a]:underline [&_a]:underline-offset-4"
+    >
+      By clicking continue, you agree to our <a href="/legal/terms">Terms of Service</a>{" "}
+      and <a href="/legal/privacy">Privacy Policy</a>.
+    </p>
+  </div>
+</form>
+
+<script>
+  import { toast } from "@/components/toast";
+  import { disableSubmitButton, handleFormErrors } from "@/lib/utils/form.utils";
+  import { actions } from "astro:actions";
+  import { navigate } from "astro:transitions/client";
+
+  const form = document.querySelector("form#sign-in-form") as HTMLFormElement;
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    disableSubmitButton(form);
+
+    const formData = new FormData(form);
+    const { error } = await actions.auth.signIn(formData);
+
+    if (error) {
+      return handleFormErrors(error, form);
+    }
+    return await navigate("/auth/verify");
+  });
+
+  const googleSignIn = document.querySelector("#google-sign-in") as HTMLButtonElement;
+  googleSignIn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    // TODO: Implement Google Sign In
+    toast("Google Sign In is not implemented yet.");
+  });
+  const appleSignIn = document.querySelector("#apple-sign-in") as HTMLButtonElement;
+  appleSignIn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    // TODO: Implement Apple Sign In
+    toast("Apple Sign In is not implemented yet.");
+  });
+  const githubSignIn = document.querySelector("#github-sign-in") as HTMLButtonElement;
+  githubSignIn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    // TODO: Implement GitHub Sign In
+    toast("GitHub Sign In is not implemented yet.");
+  });
+</script>

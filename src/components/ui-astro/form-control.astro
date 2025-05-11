@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Input from "./input.astro";
+
+type Props = HTMLAttributes<"input"> & {
+  name: string;
+  description?: string;
+  error?: string;
+};
+
+const { error, description, name, ...attr } = Astro.props;
+---
+
+<div class="space-y-1">
+  <Input {name} {...attr} />
+  {
+    description && (
+      <p class="text-muted-foreground text-xs" id={`${name}-description`}>
+        {description}
+      </p>
+    )
+  }
+  <p class="text-destructive text-xs md:text-sm" id={`${name}-error`}></p>
+</div>

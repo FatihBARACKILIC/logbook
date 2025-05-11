@@ -1,0 +1,47 @@
+---
+import { VerifySignInForm as VerifyForm } from "@/components/forms/auth/verify-sign-in-form";
+
+type Props = {
+  token: string;
+};
+
+const { token } = Astro.props;
+---
+
+<VerifyForm client:load {token} />
+
+<script>
+  import { handleFormErrors, handleGeneralErrors } from "@/lib/utils/form.utils";
+  import { actions } from "astro:actions";
+  import { navigate } from "astro:transitions/client";
+
+  const form = document.querySelector("form#verify-sign-in-form") as HTMLFormElement;
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const { error } = await actions.auth.verifySignIn(formData);
+    if (error) {
+      return handleFormErrors(error, form);
+    }
+    return await navigate("/app");
+  });
+
+  const changeMail = document.querySelector("#change-mail") as HTMLButtonElement;
+  changeMail?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const { error } = await actions.auth.changeEmail();
+    if (error) {
+      return handleGeneralErrors(error);
+    }
+    return await navigate("/auth/sign-in");
+  });
+
+  const resendCode = document.querySelector("#resend-otp") as HTMLButtonElement;
+  resendCode?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const { error } = await actions.auth.resendOtp();
+    if (error) {
+      return handleGeneralErrors(error);
+    }
+  });
+</script>

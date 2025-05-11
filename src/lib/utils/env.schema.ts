@@ -29,11 +29,25 @@ export const envSchema = {
   REDIS_USER: envField.string({ access: "secret", context: "server" }),
   REDIS_PASSWORD: envField.string({ access: "secret", context: "server" }),
   REDIS_URL: envField.string({ access: "secret", context: "server" }),
-  REDIS_TTL: envField.number({
+  SESSION_TTL: envField.number({
     access: "secret",
     context: "server",
     default: 3600,
     int: true,
-    gt: 3599
-  })
+    gt: 900
+  }),
+  SESSION_COOKIE_MAX_AGE: envField.number({
+    access: "secret",
+    context: "server",
+    default: 604800,
+    int: true,
+    gt: 900,
+    lt: 31536000
+  }),
+  MAIL_SERVICE: envField.string({ access: "secret", context: "server" }),
+  MAIL_HOST: envField.string({ access: "secret", context: "server" }),
+  MAIL_PORT: envField.number({ access: "secret", context: "server", int: true }),
+  MAIL_SECURE: envField.boolean({ access: "secret", context: "server" }),
+  MAIL_USER: envField.string({ access: "secret", context: "server" }),
+  MAIL_PASSWORD: envField.string({ access: "secret", context: "server" })
 };

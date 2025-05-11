@@ -1,0 +1,11 @@
+---
+import VerifySignInForm from "@/components/forms/auth/verify-sign-in-form.astro";
+import AuthLayout from "@/layouts/auth-layout.astro";
+
+const url = new URL(Astro.request.url);
+const token = url.searchParams?.get("token") ?? "";
+---
+
+<AuthLayout>
+  <VerifySignInForm {token} />
+</AuthLayout>

@@ -2,6 +2,8 @@
 import { APP_CONSTANTS } from "@/lib/constants/app.constants";
 import type { Meta } from "@/lib/types/meta.types";
 import "@/styles/global.css";
+import "sonner/dist/styles.css";
+import { Toaster } from "sonner";
 
 type Props = {
   meta?: Meta;
@@ -51,6 +53,7 @@ const metaTags: Meta = {
   </head>
   <body class="min-h-screen w-full">
     <slot />
+    <Toaster client:load />
 
     <script is:inline src="/scripts/dark-mode.js"></script>
   </body>

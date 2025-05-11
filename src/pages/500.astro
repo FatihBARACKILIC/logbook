@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/base-layout.astro";
+
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<BaseLayout>
+  <div>{error instanceof Error ? error.message : "Unknown error"}</div>
+</BaseLayout>
