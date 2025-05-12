@@ -20,7 +20,7 @@ export function SignOutButton({ redirect = "/auth/sign-in" }: Props) {
   };
 
   return (
-    <Button type="button" size="icon" variant="ghost" onClick={handleSignOut}>
+    <Button type="button" size="icon" variant="outline" onClick={handleSignOut}>
       <LogOutIcon />
       <span className="sr-only">Sign Out</span>
     </Button>

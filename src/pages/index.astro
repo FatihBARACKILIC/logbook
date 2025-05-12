@@ -1,8 +1,8 @@
 ---
 import Logo from "@/assets/images/logo/logo.png";
+import LinkButton from "@/components/common/link-button.astro";
 import { SignOutButton } from "@/components/common/sign-out-button";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { APP_CONSTANTS } from "@/lib/constants/app.constants";
 import { Image } from "astro:assets";
@@ -21,21 +21,17 @@ const session = await Astro.session?.get("user");
         {
           session?.email ? (
             <Fragment>
-              <a href="/app">
-                <Button variant="link" size="icon" className="cursor-pointer">
-                  <CommandIcon />
-                  <span class="sr-only">Go To App Page</span>
-                </Button>
-              </a>
+              <LinkButton href="/app" variant="outline" size="icon">
+                <CommandIcon />
+                <span class="sr-only">Go To App Page</span>
+              </LinkButton>
               <SignOutButton client:idle />
             </Fragment>
           ) : (
-            <a href="/auth/sign-in">
-              <Button variant="link" size="icon" className="cursor-pointer">
-                <LogInIcon />
-                <span class="sr-only">Go To Sign In Page</span>
-              </Button>
-            </a>
+            <LinkButton href="/auth/sign-in" variant="outline" size="icon">
+              <LogInIcon />
+              <span class="sr-only">Go To Sign In Page</span>
+            </LinkButton>
           )
         }
 

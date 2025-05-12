@@ -1,0 +1,45 @@
+---
+import { cn } from "@/lib/utils/cn";
+import { isExternalURL } from "@/lib/utils/is-external-page";
+import type { HTMLAttributes } from "astro/types";
+import { cva, type VariantProps } from "class-variance-authority";
+
+const linkVariants = cva(
+  "text-base text-balance text-center cursor-pointer transition-all duration-[5000] ease-in-out whitespace-nowrap",
+  {
+    variants: {
+      variant: {
+        default: "text-primary hover:text-muted-foreground",
+        muted: "text-muted-foreground hover:text-primary",
+        colorful: "text-blue-500 hover:text-blue-600"
+      },
+      underline: {
+        true: "underline underline-offset-4",
+        false: "no-underline"
+      }
+    },
+    defaultVariants: {
+      underline: false,
+      variant: "default"
+    }
+  }
+);
+
+type Props = {
+  text?: string;
+} & HTMLAttributes<"a"> &
+  VariantProps<typeof linkVariants>;
+
+let { text, class: className, variant, underline, ...attr } = Astro.props;
+
+// TODO: eğer href değeri null ya da undefined ise ekranda log mesajı çıksın
+const isExternalPage = isExternalURL(attr.href);
+attr.target = isExternalPage ? "_blank" : attr.target;
+attr.rel = isExternalPage ? "noopener noreferrer" : attr.rel;
+attr.referrerpolicy = isExternalPage ? "no-referrer" : attr.referrerpolicy;
+---
+
+<a data-slot="link" class={cn(linkVariants({ variant, underline, className }), "")} {...attr}>
+  {text}
+  <slot />
+</a>
