@@ -8,7 +8,7 @@ import { APP_CONSTANTS } from "@/lib/constants/app.constants";
 import { Image } from "astro:assets";
 import { CommandIcon, LogInIcon } from "lucide-react";
 
-const session = await Astro.session?.get("user");
+const session = Astro.locals.user;
 ---
 
 <BaseLayout>
@@ -19,7 +19,7 @@ const session = await Astro.session?.get("user");
       <p>{APP_CONSTANTS.APP_DESCRIPTION}</p>
       <div class="flex items-center justify-center gap-4">
         {
-          session?.email ? (
+          session ? (
             <Fragment>
               <LinkButton href="/app" variant="outline" size="icon">
                 <CommandIcon />
