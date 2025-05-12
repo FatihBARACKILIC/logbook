@@ -1,11 +1,8 @@
 ---
 import BaseLayout from "@/layouts/base-layout.astro";
+import { getUserFromSession } from "@/lib/utils/get-user-from-session";
 
-const user = await Astro.session?.get("user");
-
-if (!user || !user.email) {
-  throw new Error("User not found");
-}
+const user = getUserFromSession(Astro);
 ---
 
 <BaseLayout>
