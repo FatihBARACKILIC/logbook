@@ -1,8 +1,8 @@
-import { LogOut } from "lucide-react";
-import { Button } from "../ui/button";
 import { actions } from "astro:actions";
-import { toast } from "../toast";
 import { navigate } from "astro:transitions/client";
+import { LogOutIcon } from "lucide-react";
+import { toast } from "../toast";
+import { Button } from "../ui/button";
 
 type Props = {
   redirect?: string;
@@ -21,7 +21,7 @@ export function SignOutButton({ redirect = "/auth/sign-in" }: Props) {
 
   return (
     <Button type="button" size="icon" variant="ghost" onClick={handleSignOut}>
-      <LogOut />
+      <LogOutIcon />
       <span className="sr-only">Sign Out</span>
     </Button>
   );

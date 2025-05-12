@@ -1,7 +1,20 @@
 ---
+import Button from "@/components/ui-astro/button.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
+import { HomeIcon } from "lucide-react";
 ---
 
 <BaseLayout>
-  <h1>Not Found Page</h1>
+  <main class="flex min-h-svh w-full items-center justify-center">
+    <div class="flex w-full max-w-xl flex-col items-center justify-center gap-4 text-center">
+      <h1 class="text-lg md:text-3xl lg:text-5xl">404 - Not Found</h1>
+      <p>Not Found. The page you are looking for does not exist.</p>
+      <a href="/">
+        <Button variant="outline" size="icon" class="cursor-pointer">
+          <HomeIcon />
+          <span class="sr-only">Go To Home Page</span>
+        </Button>
+      </a>
+    </div>
+  </main>
 </BaseLayout>

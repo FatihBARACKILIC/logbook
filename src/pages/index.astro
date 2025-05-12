@@ -20,16 +20,20 @@ const session = await Astro.session?.get("user");
       <div class="flex items-center justify-center gap-4">
         {
           session?.email ? (
-            <a href="/app">
-              <Button variant="link" size="icon" className="cursor-pointer">
-                <CommandIcon />
-              </Button>
-            </a>
-            <SignOutButton client:idle />
+            <Fragment>
+              <a href="/app">
+                <Button variant="link" size="icon" className="cursor-pointer">
+                  <CommandIcon />
+                  <span class="sr-only">Go To App Page</span>
+                </Button>
+              </a>
+              <SignOutButton client:idle />
+            </Fragment>
           ) : (
             <a href="/auth/sign-in">
               <Button variant="link" size="icon" className="cursor-pointer">
                 <LogInIcon />
+                <span class="sr-only">Go To Sign In Page</span>
               </Button>
             </a>
           )

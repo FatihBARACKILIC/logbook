@@ -1,13 +1,42 @@
 ---
+import Button from "@/components/ui-astro/button.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
+import { CommandIcon, HomeIcon } from "lucide-react";
 
 interface Props {
   error: unknown;
 }
 
 const { error } = Astro.props;
+const title = error instanceof Error ? error.name : "Unknown Error";
+const message = error instanceof Error ? error.message : "An unexpected error occurred.";
+const session = await Astro.session?.get("user");
+// TODO: Error için log ekle
 ---
 
 <BaseLayout>
-  <div>{error instanceof Error ? error.message : "Unknown error"}</div>
+  <main class="flex min-h-svh w-full items-center justify-center">
+    <div class="flex w-full max-w-xl flex-col items-center justify-center gap-4 text-center">
+      <h1 class="text-lg md:text-3xl lg:text-5xl">{title}</h1>
+      <p>{message}</p>
+      <div class="flex items-center justify-center gap-4">
+        <a href="/">
+          <Button variant="outline" size="icon" class="cursor-pointer">
+            <HomeIcon />
+            <span class="sr-only">Go To Home Page</span>
+          </Button>
+        </a>
+        {
+          session?.email ? (
+            <a href="/app">
+              <Button variant="outline" size="icon" class="cursor-pointer">
+                <CommandIcon />
+                <span class="sr-only">Go To App Page</span>
+              </Button>
+            </a>
+          ) : null
+        }
+      </div>
+    </div>
+  </main>
 </BaseLayout>
