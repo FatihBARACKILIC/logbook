@@ -1,6 +1,6 @@
 ---
 import SmallLogo from "@/assets/images/logo/logo-4q.png";
-import Logo from "@/assets/images/logo/logo.png";
+import Library from "@/assets/images/sign-in/library.jpg";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { APP_CONSTANTS } from "@/lib/constants/app.constants";
 import { Image } from "astro:assets";
@@ -30,13 +30,13 @@ import { Image } from "astro:assets";
       </div>
     </div>
     <div class="bg-muted relative hidden lg:block">
-      <!-- <Image
-        src={Logo}
-        alt={`${APP_CONSTANTS.APP_NAME} logo`}
+      <Image
+        src={Library}
+        alt="Bookshelves in a library with rows of books."
         loading="eager"
         decoding="async"
         class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-      /> -->
+      />
     </div>
   </div>
 </BaseLayout>
