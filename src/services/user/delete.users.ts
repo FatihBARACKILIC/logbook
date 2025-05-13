@@ -2,7 +2,6 @@ import { db } from "@/lib/database";
 import {
   sessionsTableSchema,
   usersTableSchema,
-  verificationCodesTableSchema,
   type UsersTableSchema
 } from "@/lib/database/schemas";
 import { eq } from "drizzle-orm";
@@ -23,9 +22,6 @@ export async function deleteUserById(userId: number): Promise<UsersTableSchema |
       .set({ deletedAt: new Date() })
       .where(eq(usersTableSchema.id, userId))
       .returning();
-    await tx
-      .delete(verificationCodesTableSchema)
-      .where(eq(verificationCodesTableSchema.userId, userId));
     await tx.delete(sessionsTableSchema).where(eq(sessionsTableSchema.userId, userId));
     return user;
   });
