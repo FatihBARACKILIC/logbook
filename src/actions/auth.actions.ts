@@ -96,6 +96,11 @@ export const authActions = {
   resendOtp: defineAction({
     handler: async (_input, c) => {
       const createdAt = await getVerificationTokenTime(c, "sign-in");
+      if (!createdAt) {
+        c.session?.delete("user");
+        c.session?.set("verificationTokens", { "sign-in": undefined });
+        throw new Error("Session Not Found");
+      }
       const secondsUntilResend = Math.ceil(60 - (Date.now() - createdAt.getTime()) / 1000);
       if (secondsUntilResend > 0) {
         throw new ActionError({

@@ -6,9 +6,7 @@ export async function getVerificationTokenTime(
 ) {
   const tokens = await c.session?.get("verificationTokens");
   if (!tokens?.[tokenType]) {
-    c.session?.delete("user");
-    c.session?.set("verificationTokens", { [tokenType]: undefined });
-    throw new Error("Session Not Found");
+    return undefined;
   }
   return tokens[tokenType].createdAt;
 }
