@@ -27,6 +27,7 @@ const linkVariants = cva(
 
 type Props = {
   text?: string;
+  href: string | URL;
 } & HTMLAttributes<"a"> &
   VariantProps<typeof linkVariants>;
 

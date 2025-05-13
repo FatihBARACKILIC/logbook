@@ -31,7 +31,10 @@ const linkButtonVariants = cva(
   }
 );
 
-type Props = HTMLAttributes<"a"> & VariantProps<typeof linkButtonVariants>;
+type Props = {
+  href: string | URL;
+} & HTMLAttributes<"a"> &
+  VariantProps<typeof linkButtonVariants>;
 
 let { class: className, variant, size, ...attr } = Astro.props;
 
