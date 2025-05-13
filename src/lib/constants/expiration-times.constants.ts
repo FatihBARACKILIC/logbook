@@ -17,4 +17,4 @@ export const EXPIRATION_TIMES = {
    * @description 15 minutes
    */
   EMAIL_VERIFICATION_TOKEN: 15 * 60
-} as const;
+} as const satisfies Record<string, number>;

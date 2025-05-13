@@ -17,4 +17,4 @@ export const APP_CONSTANTS = {
    * The relative path to the application's logo image.
    */
   APP_LOGO: "/logo.png"
-} as const;
+} as const satisfies Record<string, string>;

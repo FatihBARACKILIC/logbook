@@ -9,4 +9,4 @@ export const COOKIE_KEYS = {
    * @type {string}
    */
   SESSION_KEY: "sid"
-} as const;
+} as const satisfies Record<string, string>;
