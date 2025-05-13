@@ -1,4 +1,5 @@
 import type { AstroGlobal } from "astro";
+import { UnauthorizedError } from "../errors/unauthorized.error";
 
 /**
  * The function `getUserFromSession` retrieves the user object from the session and throws an error if
@@ -8,7 +9,9 @@ import type { AstroGlobal } from "astro";
  */
 export function getUserFromSession(c: AstroGlobal) {
   if (!c.locals.user) {
-    throw new Error("Your session has expired or is invalid. Please sign in again to continue.");
+    throw new UnauthorizedError(
+      "Your session has expired or is invalid. Please sign in again to continue."
+    );
   }
   return c.locals.user;
 }

@@ -1,6 +1,9 @@
 ---
-import Button from "@/components/ui-astro/button.astro";
+import LinkButton from "@/components/common/link-button.astro";
+import Link from "@/components/common/link.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
+import { BaserError } from "@/lib/errors/base.error";
+import { ERROR_ICONS } from "@/lib/utils/error-icons";
 import { CommandIcon, HomeIcon } from "lucide-react";
 
 interface Props {
@@ -8,8 +11,7 @@ interface Props {
 }
 
 const { error } = Astro.props;
-const title = error instanceof Error ? error.name : "Unknown Error";
-const message = error instanceof Error ? error.message : "An unexpected error occurred.";
+const { title, message, links } = BaserError.handleError(error);
 const session = await Astro.session?.get("user");
 // TODO: Error için log ekle
 ---
@@ -20,21 +22,35 @@ const session = await Astro.session?.get("user");
       <h1 class="text-lg md:text-3xl lg:text-5xl">{title}</h1>
       <p>{message}</p>
       <div class="flex items-center justify-center gap-4">
-        <a href="/">
-          <Button variant="outline" size="icon" class="cursor-pointer">
-            <HomeIcon />
-            <span class="sr-only">Go To Home Page</span>
-          </Button>
-        </a>
+        <LinkButton href="/" variant="outline" size="icon">
+          <HomeIcon />
+          <span class="sr-only">Go To Home Page</span>
+        </LinkButton>
         {
           session?.email ? (
-            <a href="/app">
-              <Button variant="outline" size="icon" class="cursor-pointer">
-                <CommandIcon />
-                <span class="sr-only">Go To App Page</span>
-              </Button>
-            </a>
+            <LinkButton href="/app" variant="outline" size="icon">
+              <CommandIcon />
+              <span class="sr-only">Go To App Page</span>
+            </LinkButton>
           ) : null
+        }
+
+        {
+          links.map((link) =>
+            link.title ? (
+              <Link href={link.url} {title} />
+            ) : (
+              <LinkButton href={link.url} variant="outline" size="icon">
+                {link.icon
+                  ? (() => {
+                      const Icon = ERROR_ICONS[link.icon];
+                      return <Icon />;
+                    })()
+                  : null}
+                {link.srOnly ? <span class="sr-only">{link.srOnly}</span> : null}
+              </LinkButton>
+            )
+          )
         }
       </div>
     </div>
