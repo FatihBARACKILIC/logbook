@@ -1,17 +1,14 @@
 // @ts-check
-import { COOKIE_KEYS } from "./src/lib/constants/cookie.constants";
-import { envSchema } from "./src/lib/utils/env.schema";
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
+import { COOKIE_KEYS } from "./src/lib/constants/cookie.constants";
+import { envSchema } from "./src/lib/utils/env.schema";
 
-const {
-  REDIS_URL,
-  SESSION_TTL = 3600,
-  SESSION_COOKIE_MAX_AGE = 604800
-} = loadEnv(process.env?.NODE_ENV ?? "development", process.cwd(), "");
+const env = loadEnv(process.env?.NODE_ENV ?? "development", process.cwd(), "");
+const { REDIS_URL, SESSION_TTL = 3600, SESSION_COOKIE_MAX_AGE = 604800 } = env;
 
 // https://astro.build/config
 export default defineConfig({
