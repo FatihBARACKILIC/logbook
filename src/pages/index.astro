@@ -14,7 +14,14 @@ const session = Astro.locals.user;
 <BaseLayout>
   <div class="flex min-h-screen w-full items-center justify-center p-4 text-justify">
     <div class="flex w-full max-w-xl flex-col items-center justify-center">
-      <Image src={Logo} alt={`${APP_CONSTANTS.APP_NAME} logo`} loading="eager" decoding="async" />
+      <Image
+        src={Logo}
+        widths={[240, 540, 720, Logo.width]}
+        sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${Logo.width}px`}
+        alt={`${APP_CONSTANTS.APP_NAME} logo`}
+        loading="eager"
+        decoding="async"
+      />
       <h1>{APP_CONSTANTS.APP_NAME}</h1>
       <p>{APP_CONSTANTS.APP_DESCRIPTION}</p>
       <div class="flex items-center justify-center gap-4">

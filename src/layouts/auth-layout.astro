@@ -1,5 +1,5 @@
 ---
-import SmallLogo from "@/assets/images/logo/logo-4q.png";
+import SmallLogo from "@/assets/images/Logo/Logo-4q.png";
 import Library from "@/assets/images/sign-in/library.jpeg";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { APP_CONSTANTS } from "@/lib/constants/app.constants";
@@ -14,7 +14,7 @@ import { Image } from "astro:assets";
           <div class="flex size-10 items-center justify-center rounded-md">
             <Image
               src={SmallLogo}
-              alt={`${APP_CONSTANTS.APP_NAME} logo`}
+              alt={`${APP_CONSTANTS.APP_NAME} Library`}
               loading="eager"
               decoding="async"
               class="size-8"
@@ -32,6 +32,8 @@ import { Image } from "astro:assets";
     <div class="bg-muted relative hidden lg:block">
       <Image
         src={Library}
+        widths={[240, 540, 720, Library.width]}
+        sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${Library.width}px`}
         alt="Bookshelves in a library with rows of books."
         loading="eager"
         decoding="async"
