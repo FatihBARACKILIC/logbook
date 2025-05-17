@@ -1,12 +1,5 @@
 ---
-import BaseLayout from "@/layouts/base-layout.astro";
-import { getUserFromSession } from "@/lib/utils/get-user-from-session";
-
-const user = getUserFromSession(Astro);
+import AppLayout from "@/layouts/app-layout.astro";
 ---
 
-<BaseLayout>
-  <p>
-    {user.email} welcome to the app!
-  </p>
-</BaseLayout>
+<AppLayout>App Page</AppLayout>

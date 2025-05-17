@@ -1,0 +1,12 @@
+---
+import { Sidebar } from "@/components/common/sidebar";
+import BaseLayout from "./base-layout.astro";
+
+const sidebarState = Astro.cookies.get("sidebar_state")?.value === "true";
+---
+
+<BaseLayout>
+  <Sidebar {sidebarState} client:only>
+    <slot />
+  </Sidebar>
+</BaseLayout>
