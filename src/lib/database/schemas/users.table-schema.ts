@@ -2,6 +2,7 @@ import { databaseTimestampSchema } from "@/lib/utils/database-timestamp.schema";
 import { relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, varchar } from "drizzle-orm/pg-core";
 import { sessionsTableSchema } from "./sessions.table-schema";
+import { contentListsTableSchema } from "./content-lists.table-schema";
 
 export const authProvider = pgEnum("auth_provider", ["email", "google", "apple", "github"]);
 
@@ -19,5 +20,8 @@ export type UsersTableInsertSchema = typeof usersTableSchema.$inferInsert;
 export const usersTableRelations = relations(usersTableSchema, ({ many }) => ({
   sessions: many(sessionsTableSchema, {
     relationName: "sessionsToUser"
+  }),
+  contentLists: many(contentListsTableSchema, {
+    relationName: "contentListsToUser"
   })
 }));
