@@ -3,12 +3,11 @@ import Logo from "@/assets/images/logo/logo.png";
 import LinkButton from "@/components/common/link-button.astro";
 import { ModeToggle } from "@/components/mode-toggle";
 import BaseLayout from "@/layouts/base-layout.astro";
-import { getSession } from "@/lib/api/auth/session";
 import { APP_CONSTANTS } from "@/lib/constants/app.constants";
 import { Image } from "astro:assets";
 import { CommandIcon, LogInIcon } from "lucide-react";
 
-const session = await getSession();
+const { user } = Astro.locals;
 ---
 
 <BaseLayout>
@@ -26,7 +25,7 @@ const session = await getSession();
       <p>{APP_CONSTANTS.APP_DESCRIPTION}</p>
       <div class="flex items-center justify-center gap-4">
         {
-          session ? (
+          user ? (
             <LinkButton href="/app" variant="outline" size="icon">
               <CommandIcon />
               <span class="sr-only">Go To App Page</span>
