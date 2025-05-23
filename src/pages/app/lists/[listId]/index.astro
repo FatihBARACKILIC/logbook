@@ -1,0 +1,29 @@
+---
+import AppLayout from "@/layouts/app-layout.astro";
+import { getContentListWithContents } from "@/services/content-lists/get.content-lists";
+import { ListNotFoundError } from "@/lib/errors/not-found.error";
+
+type Params = {
+  listId: string;
+};
+
+const { user } = Astro.locals;
+const { listId } = Astro.params as Params;
+
+const response = await getContentListWithContents(user.userId, listId);
+if (!response) {
+  throw new ListNotFoundError();
+}
+---
+
+<AppLayout>
+  content page
+
+  <p>
+    {response.title}
+  </p>
+
+  <ul>
+    {response.contents.map((item) => <li>{item.title}</li>)}
+  </ul>
+</AppLayout>

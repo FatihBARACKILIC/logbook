@@ -1,5 +1,7 @@
 import { databaseTimestampSchema } from "@/lib/utils/database-timestamp.schema";
+import { relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, varchar } from "drizzle-orm/pg-core";
+import { contentListsTableSchema } from "./content-lists.table-schema";
 
 export const statusEnum = pgEnum("status", ["not-started", "in-progress", "completed", "was-left"]);
 
@@ -14,3 +16,14 @@ export const contentsTableSchema = pgTable("contents", {
   description: varchar("description", { length: 1024 }),
   ...databaseTimestampSchema
 });
+
+export type ContentsTableSchema = typeof contentsTableSchema.$inferSelect;
+export type ContentsInsertTableSchema = typeof contentsTableSchema.$inferInsert;
+
+export const contentsTableRelations = relations(contentsTableSchema, ({ one }) => ({
+  lists: one(contentListsTableSchema, {
+    fields: [contentsTableSchema.listId],
+    references: [contentListsTableSchema.id],
+    relationName: "contentListsToContents"
+  })
+}));

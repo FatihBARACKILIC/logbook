@@ -1,0 +1,46 @@
+---
+import FormControl from "@/components/ui-astro/form-control.astro";
+import { cn } from "@/lib/utils/cn";
+import type { HTMLAttributes } from "astro/types";
+import type { ActionInputError } from "astro:actions";
+import type { ActionError } from "astro:actions";
+import { isInputError } from "astro:actions";
+import { actions } from "astro:actions";
+
+type Props = HTMLAttributes<"form">;
+
+const result = Astro.getActionResult(actions.contentList.createContentList);
+
+function handleError<TError extends Record<string, string>>(
+  error: ActionError<TError> | undefined
+): { errors: Partial<ActionInputError<TError>["fields"]>; error: string } {
+  let errors: Partial<ActionInputError<TError>["fields"]> = {};
+  if (isInputError(error)) {
+    errors = error.fields;
+  }
+  return { error: error?.message ?? "", errors };
+}
+
+const { error, errors } = handleError(result?.error);
+
+const { class: className, ...attr } = Astro.props;
+---
+
+<form
+  {...attr}
+  id="create-content-form"
+  class={cn("flex flex-col gap-4", className)}
+  method="post"
+  action={actions.contentList.createContentList}
+>
+  {error && <p class="text-destructive text-xs md:text-sm">{error}</p>}
+  <FormControl
+    transition:persist
+    name="title"
+    placeholder="Create List"
+    required
+    aria-label="Title"
+    autocomplete="off"
+    error={errors?.title?.join(", ")}
+  />
+</form>

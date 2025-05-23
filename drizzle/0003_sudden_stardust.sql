@@ -1,0 +1,1 @@
+ALTER TABLE "content_lists" ADD COLUMN "uuid" uuid DEFAULT gen_random_uuid() NOT NULL;
