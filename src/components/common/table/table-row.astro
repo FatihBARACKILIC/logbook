@@ -1,0 +1,18 @@
+---
+import { cn } from "@/lib/utils/cn";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"tr"> & {};
+
+const { class: className, ...attr } = Astro.props;
+---
+
+<tr
+  class={cn(
+    "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+    className
+  )}
+  {...attr}
+>
+  <slot />
+</tr>

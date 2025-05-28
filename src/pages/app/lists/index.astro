@@ -3,24 +3,59 @@ import Link from "@/components/common/link.astro";
 import CreateContentList from "@/components/forms/content-lists/create-content-list.astro";
 import AppLayout from "@/layouts/app-layout.astro";
 import { getContentListsByUserId } from "@/services/content-lists/get.content-lists";
+import {
+  Table,
+  TableCaption,
+  TableHeader,
+  TableRow,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableFooter
+} from "@/components/common/table/index.astro";
 
 const { user } = Astro.locals;
 const response = await getContentListsByUserId(user.userId);
+let totalCount = 0;
 ---
 
 <AppLayout>
   <div class="flex max-w-xl flex-col gap-4">
     <CreateContentList />
     <hr />
-    {
-      response.map((item) => (
-        <div>
-          <Link
-            text={`${item.title} => ${item.contents.length}`}
-            href={`/app/lists/${item.uuid}`}
-          />
-        </div>
-      ))
-    }
+    <Table>
+      <TableCaption>All your lists</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Title</TableHead>
+          <TableHead>Contents Count</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {
+          response.map((item) => {
+            totalCount += item.contents.length;
+            return (
+              <TableRow>
+                <TableCell>
+                  <a href={`/app/lists/${item.uuid}`}>{item.title}</a>
+                </TableCell>
+                <TableCell>{item.contents.length}</TableCell>
+              </TableRow>
+            );
+          })
+        }
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell>
+            {response.length} list
+          </TableCell>
+          <TableCell>
+            {totalCount} content
+          </TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
   </div>
 </AppLayout>
