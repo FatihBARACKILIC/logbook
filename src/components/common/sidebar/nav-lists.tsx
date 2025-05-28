@@ -13,26 +13,16 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem
 } from "@/components/ui/sidebar";
-// FIXME: kullanıcı listeleri oluşturulunca burada göster
-export function NavMain({
-  items
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+import { NAV_MAIN } from "@/lib/constants/nav.constants";
+
+type Props = {};
+
+export function NavMain({}: Props) {
   return (
     <SidebarGroup className="flex-1">
       <SidebarGroupLabel>Lists</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {NAV_MAIN.map((item) => (
           <Collapsible
             key={item.title}
             asChild
@@ -40,13 +30,17 @@ export function NavMain({
             className="group/collapsible"
           >
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
+              <SidebarMenuButton tooltip={item.title}>
+                {item.icon && <item.icon />}
+                <a href={item.url} className="flex-1">
+                  {item.title}
+                </a>
+                {item.items && item.items?.length > 0 ? (
+                  <CollapsibleTrigger asChild>
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </CollapsibleTrigger>
+                ) : null}
+              </SidebarMenuButton>
               <CollapsibleContent>
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
