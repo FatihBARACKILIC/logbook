@@ -1,18 +1,17 @@
 ---
-import Link from "@/components/common/link.astro";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/common/table/index.astro";
 import CreateContentList from "@/components/forms/content-lists/create-content-list.astro";
 import AppLayout from "@/layouts/app-layout.astro";
 import { getContentListsByUserId } from "@/services/content-lists/get.content-lists";
-import {
-  Table,
-  TableCaption,
-  TableHeader,
-  TableRow,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableFooter
-} from "@/components/common/table/index.astro";
 
 const { user } = Astro.locals;
 const response = await getContentListsByUserId(user.userId);

@@ -1,0 +1,1 @@
+ALTER TABLE "contents" ALTER COLUMN "episode" SET DEFAULT 0;

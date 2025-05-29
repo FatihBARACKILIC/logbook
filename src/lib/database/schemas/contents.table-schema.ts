@@ -10,8 +10,8 @@ export const contentsTableSchema = pgTable("contents", {
   listId: integer("list_id").notNull(),
   title: varchar("title", { length: 256 }).notNull(),
   creationYear: integer("creation_year"),
-  season: integer("season"),
-  episode: integer("episode"),
+  season: integer("season").notNull().default(1),
+  episode: integer("episode").notNull().default(0),
   status: statusEnum("status").notNull().default("not-started"),
   description: varchar("description", { length: 1024 }),
   ...databaseTimestampSchema

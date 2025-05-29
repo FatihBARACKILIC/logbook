@@ -1,7 +1,18 @@
 ---
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/common/table/index.astro";
 import AppLayout from "@/layouts/app-layout.astro";
-import { getContentListWithContents } from "@/services/content-lists/get.content-lists";
 import { ListNotFoundError } from "@/lib/errors/not-found.error";
+import { contentStatusReadableRecord } from "@/lib/utils/content-status-readable-record";
+import { getContentListWithContents } from "@/services/content-lists/get.content-lists";
+import { UpdateEpisode } from "@/components/forms/content-lists/update-episode";
 
 type Params = {
   listId: string;
@@ -17,13 +28,39 @@ if (!response) {
 ---
 
 <AppLayout>
-  content page
-
-  <p>
-    {response.title}
-  </p>
-
-  <ul>
-    {response.contents.map((item) => <li>{item.title}</li>)}
-  </ul>
+  <div class="flex max-w-xl flex-col gap-4">
+    <Table>
+      <TableCaption>
+        {response.title}
+      </TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead> Title </TableHead>
+          <TableHead> Creation Year </TableHead>
+          <TableHead> Season </TableHead>
+          <TableHead> Episode </TableHead>
+          <TableHead> Status </TableHead>
+          <TableHead> Last Update </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {
+          response.contents.map((content) => {
+            return (
+              <TableRow>
+                <TableCell>{content.title}</TableCell>
+                <TableCell>{content.creationYear}</TableCell>
+                <TableCell>{content.season}</TableCell>
+                <TableCell>
+                  <UpdateEpisode contentId={content.id} episode={content.episode} client:load />
+                </TableCell>
+                <TableCell>{contentStatusReadableRecord[content.status]}</TableCell>
+                <TableCell>{content.updatedAt?.toLocaleString("tr")}</TableCell>
+              </TableRow>
+            );
+          })
+        }
+      </TableBody>
+    </Table>
+  </div>
 </AppLayout>

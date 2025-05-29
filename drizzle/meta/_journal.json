@@ -29,6 +29,20 @@
       "when": 1747843534971,
       "tag": "0003_sudden_stardust",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1748545897630,
+      "tag": "0004_regular_venus",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1748546412898,
+      "tag": "0005_thick_rafael_vega",
+      "breakpoints": true
     }
   ]
 }
