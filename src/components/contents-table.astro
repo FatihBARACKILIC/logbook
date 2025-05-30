@@ -1,0 +1,65 @@
+---
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/common/table/index.astro";
+import { UpdateEpisode } from "@/components/forms/contents/update-episode";
+import { ListNotFoundError } from "@/lib/errors/not-found.error";
+import { cn } from "@/lib/utils/cn";
+import { contentStatusReadableRecord } from "@/lib/utils/content-status-readable-record";
+import { getContentListWithContents } from "@/services/content-lists/get.content-lists";
+
+type Props = {
+  userId: number;
+  listId: string;
+  className?: string;
+};
+
+const { userId, listId, className } = Astro.props;
+
+const response = await getContentListWithContents(userId, listId);
+if (!response) {
+  throw new ListNotFoundError();
+}
+---
+
+<div class={cn(className)}>
+  <Table>
+    <TableCaption>
+      {response.title}
+    </TableCaption>
+    <TableHeader>
+      <TableRow>
+        <TableHead> Title </TableHead>
+        <TableHead> Creation Year </TableHead>
+        <TableHead> Season </TableHead>
+        <TableHead> Episode </TableHead>
+        <TableHead> Status </TableHead>
+        <TableHead> Last Update </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {
+        response.contents.map((content) => {
+          return (
+            <TableRow>
+              <TableCell>{content.title}</TableCell>
+              <TableCell>{content.creationYear}</TableCell>
+              <TableCell>{content.season}</TableCell>
+              <TableCell>
+                <UpdateEpisode contentId={content.id} episode={content.episode} client:load />
+              </TableCell>
+              <TableCell>{contentStatusReadableRecord[content.status]}</TableCell>
+              <TableCell>{content.updatedAt?.toLocaleString("tr")}</TableCell>
+            </TableRow>
+          );
+        })
+      }
+    </TableBody>
+  </Table>
+</div>

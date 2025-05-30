@@ -1,18 +1,7 @@
 ---
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/common/table/index.astro";
+import ContentsTable from "@/components/contents-table.astro";
+import { CreateContentForm } from "@/components/forms/contents/create-content.form";
 import AppLayout from "@/layouts/app-layout.astro";
-import { ListNotFoundError } from "@/lib/errors/not-found.error";
-import { contentStatusReadableRecord } from "@/lib/utils/content-status-readable-record";
-import { getContentListWithContents } from "@/services/content-lists/get.content-lists";
-import { UpdateEpisode } from "@/components/forms/content-lists/update-episode";
 
 type Params = {
   listId: string;
@@ -20,47 +9,11 @@ type Params = {
 
 const { user } = Astro.locals;
 const { listId } = Astro.params as Params;
-
-const response = await getContentListWithContents(user.userId, listId);
-if (!response) {
-  throw new ListNotFoundError();
-}
 ---
 
 <AppLayout>
-  <div class="flex max-w-xl flex-col gap-4">
-    <Table>
-      <TableCaption>
-        {response.title}
-      </TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead> Title </TableHead>
-          <TableHead> Creation Year </TableHead>
-          <TableHead> Season </TableHead>
-          <TableHead> Episode </TableHead>
-          <TableHead> Status </TableHead>
-          <TableHead> Last Update </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {
-          response.contents.map((content) => {
-            return (
-              <TableRow>
-                <TableCell>{content.title}</TableCell>
-                <TableCell>{content.creationYear}</TableCell>
-                <TableCell>{content.season}</TableCell>
-                <TableCell>
-                  <UpdateEpisode contentId={content.id} episode={content.episode} client:load />
-                </TableCell>
-                <TableCell>{contentStatusReadableRecord[content.status]}</TableCell>
-                <TableCell>{content.updatedAt?.toLocaleString("tr")}</TableCell>
-              </TableRow>
-            );
-          })
-        }
-      </TableBody>
-    </Table>
+  <div class="grid grid-cols-1 items-center justify-center gap-4 lg:grid-cols-2 lg:items-start">
+    <ContentsTable userId={user.userId} {listId} className="order-2 lg:order-1" />
+    <CreateContentForm client:load {listId} className="order-1 lg:order-2" />
   </div>
 </AppLayout>

@@ -1,6 +1,6 @@
 import { db } from "@/lib/database";
 import { contentsTableSchema, type ContentsTableSchema } from "@/lib/database/schemas";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 type UpdateContentEpisode = {
   contentId: number;
